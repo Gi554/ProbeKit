@@ -1,0 +1,90 @@
+{
+  "target": "http://127.0.0.1:59542/",
+  "started_at": "2026-10-09T08:23:30.044679+00:00",
+  "status": null,
+  "findings": [
+    {
+      "code": "API-AUTHZ",
+      "severity": "high",
+      "title": "Accès contraire à la politique déclarée",
+      "evidence": "Scénario Accès horizontal vulnérable : ressource protégée retrouvée par un compte interdit ; baseline autorisée vérifiée.",
+      "recommendation": "Contrôler côté serveur les permissions du compte sur chaque ressource."
+    }
+  ],
+  "errors": [],
+  "metrics": {
+    "authorization": {
+      "identities": [
+        {
+          "account": "alice",
+          "verified": true
+        },
+        {
+          "account": "bob",
+          "verified": true
+        }
+      ],
+      "cases": [
+        {
+          "name": "Accès horizontal vulnérable",
+          "responses": [
+            {
+              "account": "alice",
+              "expected": "allowed",
+              "status": 200,
+              "protected_markers_match": true,
+              "sha256": "33a70b3d382755d3d52ae629b7e132f9fccd573a70c91d969fa049b72f968ece"
+            },
+            {
+              "account": "bob",
+              "expected": "denied",
+              "status": 200,
+              "protected_markers_match": true,
+              "sha256": "33a70b3d382755d3d52ae629b7e132f9fccd573a70c91d969fa049b72f968ece",
+              "similarity_to_baseline": 1.0
+            },
+            {
+              "account": "anonymous",
+              "expected": "denied",
+              "status": 401,
+              "protected_markers_match": false,
+              "sha256": "a518ff365d3f05f506fe9921fb21eb3938ec66bbded2327e58540ba462ea6372",
+              "similarity_to_baseline": 0.04
+            }
+          ],
+          "outcome": "violation"
+        },
+        {
+          "name": "Contrôle corrigé",
+          "responses": [
+            {
+              "account": "alice",
+              "expected": "allowed",
+              "status": 200,
+              "protected_markers_match": true,
+              "sha256": "33a70b3d382755d3d52ae629b7e132f9fccd573a70c91d969fa049b72f968ece"
+            },
+            {
+              "account": "bob",
+              "expected": "denied",
+              "status": 403,
+              "protected_markers_match": false,
+              "sha256": "387fe73d9abe7e6c32a0eb6113efea98dea609edefe9c3b4c9788fcaaef1603b",
+              "similarity_to_baseline": 0.03225806451612903
+            },
+            {
+              "account": "anonymous",
+              "expected": "denied",
+              "status": 401,
+              "protected_markers_match": false,
+              "sha256": "a518ff365d3f05f506fe9921fb21eb3938ec66bbded2327e58540ba462ea6372",
+              "similarity_to_baseline": 0.04
+            }
+          ],
+          "outcome": "passed"
+        }
+      ],
+      "comparison_backend": "C++"
+    }
+  }
+}

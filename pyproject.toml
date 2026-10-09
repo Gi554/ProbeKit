@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "probekit"
+version = "0.1.0"
+description = "Audits de configuration web avec rapports reproductibles"
+requires-python = ">=3.11"
+
+[project.scripts]
+probekit-auth = "probekit.authorization:main"
+probekit = "probekit.cli:main"
+probekit-ui = "probekit.server:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+probekit = ["_native/*.dll", "_native/*.so"]

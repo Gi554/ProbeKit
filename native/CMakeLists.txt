@@ -1,0 +1,8 @@
+cmake_minimum_required(VERSION 3.20)
+project(probekit_compare LANGUAGES CXX)
+add_library(probekit_compare SHARED compare.cpp)
+target_compile_features(probekit_compare PRIVATE cxx_std_17)
+if(MINGW)
+  target_link_options(probekit_compare PRIVATE -static-libgcc -static-libstdc++)
+endif()
+set_target_properties(probekit_compare PROPERTIES PREFIX "")

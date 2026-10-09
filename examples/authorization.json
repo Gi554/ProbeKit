@@ -1,0 +1,14 @@
+{
+  "origin": "http://127.0.0.1:8770",
+  "prefix": "/api",
+  "identity_path": "/api/me",
+  "accounts": {
+    "alice": {"headers_env": {"Authorization": "PROBEKIT_ALICE"}, "identity": {"/user": "alice"}},
+    "bob": {"headers_env": {"Authorization": "PROBEKIT_BOB"}, "identity": {"/user": "bob"}},
+    "anonymous": {"anonymous": true}
+  },
+  "cases": [
+    {"name": "Accès horizontal vulnérable", "path": "/api/vulnerable/101", "markers": {"/id": 101, "/owner": "alice", "/private": "lab-only"}, "allowed": ["alice"], "denied": ["bob", "anonymous"]},
+    {"name": "Contrôle corrigé", "path": "/api/secure/101", "markers": {"/id": 101, "/owner": "alice", "/private": "lab-only"}, "allowed": ["alice"], "denied": ["bob", "anonymous"]}
+  ]
+}

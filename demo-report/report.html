@@ -1,0 +1,78 @@
+<!doctype html><html lang="fr"><meta charset="utf-8"><title>ProbeKit</title>
+<style>body{font:15px system-ui;margin:40px;color:#20304a;background:#f5f7fb}table{border-collapse:collapse;width:100%;background:white}td,th{padding:16px;border:1px solid #dce3ef;text-align:left;vertical-align:top}small{color:#65738c}h1{color:#4967d6}</style>
+<h1>ProbeKit · Audit web</h1><p>http://127.0.0.1:59542/</p><small>2026-10-09T08:23:30.044679+00:00 · HTTP None</small>
+<p>Les constats de configuration nécessitent une validation contextuelle. Ce rapport ne certifie pas la sécurité de la cible.</p>
+<table><thead><tr><th>Niveau</th><th>Constat</th><th>Preuve</th><th>Recommandation</th></tr></thead><tbody><tr><td>high</td><td>API-AUTHZ<br><strong>Accès contraire à la politique déclarée</strong></td><td>Scénario Accès horizontal vulnérable : ressource protégée retrouvée par un compte interdit ; baseline autorisée vérifiée.</td><td>Contrôler côté serveur les permissions du compte sur chaque ressource.</td></tr></tbody></table>
+<h2>Erreurs et limites de collecte</h2><ul></ul><h2>Matrice des autorisations</h2><pre>{
+  &quot;identities&quot;: [
+    {
+      &quot;account&quot;: &quot;alice&quot;,
+      &quot;verified&quot;: true
+    },
+    {
+      &quot;account&quot;: &quot;bob&quot;,
+      &quot;verified&quot;: true
+    }
+  ],
+  &quot;cases&quot;: [
+    {
+      &quot;name&quot;: &quot;Accès horizontal vulnérable&quot;,
+      &quot;responses&quot;: [
+        {
+          &quot;account&quot;: &quot;alice&quot;,
+          &quot;expected&quot;: &quot;allowed&quot;,
+          &quot;status&quot;: 200,
+          &quot;protected_markers_match&quot;: true,
+          &quot;sha256&quot;: &quot;33a70b3d382755d3d52ae629b7e132f9fccd573a70c91d969fa049b72f968ece&quot;
+        },
+        {
+          &quot;account&quot;: &quot;bob&quot;,
+          &quot;expected&quot;: &quot;denied&quot;,
+          &quot;status&quot;: 200,
+          &quot;protected_markers_match&quot;: true,
+          &quot;sha256&quot;: &quot;33a70b3d382755d3d52ae629b7e132f9fccd573a70c91d969fa049b72f968ece&quot;,
+          &quot;similarity_to_baseline&quot;: 1.0
+        },
+        {
+          &quot;account&quot;: &quot;anonymous&quot;,
+          &quot;expected&quot;: &quot;denied&quot;,
+          &quot;status&quot;: 401,
+          &quot;protected_markers_match&quot;: false,
+          &quot;sha256&quot;: &quot;a518ff365d3f05f506fe9921fb21eb3938ec66bbded2327e58540ba462ea6372&quot;,
+          &quot;similarity_to_baseline&quot;: 0.04
+        }
+      ],
+      &quot;outcome&quot;: &quot;violation&quot;
+    },
+    {
+      &quot;name&quot;: &quot;Contrôle corrigé&quot;,
+      &quot;responses&quot;: [
+        {
+          &quot;account&quot;: &quot;alice&quot;,
+          &quot;expected&quot;: &quot;allowed&quot;,
+          &quot;status&quot;: 200,
+          &quot;protected_markers_match&quot;: true,
+          &quot;sha256&quot;: &quot;33a70b3d382755d3d52ae629b7e132f9fccd573a70c91d969fa049b72f968ece&quot;
+        },
+        {
+          &quot;account&quot;: &quot;bob&quot;,
+          &quot;expected&quot;: &quot;denied&quot;,
+          &quot;status&quot;: 403,
+          &quot;protected_markers_match&quot;: false,
+          &quot;sha256&quot;: &quot;387fe73d9abe7e6c32a0eb6113efea98dea609edefe9c3b4c9788fcaaef1603b&quot;,
+          &quot;similarity_to_baseline&quot;: 0.03225806451612903
+        },
+        {
+          &quot;account&quot;: &quot;anonymous&quot;,
+          &quot;expected&quot;: &quot;denied&quot;,
+          &quot;status&quot;: 401,
+          &quot;protected_markers_match&quot;: false,
+          &quot;sha256&quot;: &quot;a518ff365d3f05f506fe9921fb21eb3938ec66bbded2327e58540ba462ea6372&quot;,
+          &quot;similarity_to_baseline&quot;: 0.04
+        }
+      ],
+      &quot;outcome&quot;: &quot;passed&quot;
+    }
+  ],
+  &quot;comparison_backend&quot;: &quot;C++&quot;
+}</pre></html>
